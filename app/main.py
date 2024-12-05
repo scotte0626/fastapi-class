@@ -1,6 +1,6 @@
 from fastapi import FastAPI,Depends,HTTPException
 from pydantic import BaseModel
-from sqlalchemy import create_engine,Column,Integer,String,Boolean
+from sqlalchemy import create_engine,Column,Integer,String,Boolean,Date
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker,Session
 
@@ -13,10 +13,10 @@ SessionLocal = sessionmaker(autocommit=False,autoflush=False,bind=engine)
 class Todo(Base):
     __tablename__ = "todos"
     id = Column(Integer,primary_key=True,index=True)
-    title = Column(String,nullable=False)
+    title = Column(String(100),nullable=False)
     descripton = Column(String,nullable=True)
     completed= Column(Boolean,default=False)
-
+    due_date=Column(Date,nullable=True)
     Base.metadata.create_all(bind=engine)
 class TodoBase(BaseModel):
     title:str
